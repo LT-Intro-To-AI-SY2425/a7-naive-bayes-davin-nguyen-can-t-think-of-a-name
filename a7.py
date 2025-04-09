@@ -76,7 +76,6 @@ class BayesClassifier:
                 self.update_dict(token,self.pos_freqs)
             elif filename.startswith(self.neg_file_prefix):
                 self.update_dict(token,self.neg_freqs)
-        print(self.pos_freqs["good"])
 
         # we want to fill pos_freqs and neg_freqs with the correct counts of words from
         # their respective reviews
@@ -121,18 +120,22 @@ class BayesClassifier:
 
        
         # get a list of the individual tokens that occur in text
-       
+        tokens = self.tokenize(text)
+        
 
         # create some variables to store the positive and negative probability. since
         # we will be adding logs of probabilities, the initial values for the positive
         # and negative probabilities are set to 0
-       
+        pos_score = 0
+        neg_score = 0 
 
         # get the sum of all of the frequencies of the features in each document class
         # (i.e. how many words occurred in all documents for the given class) - this
         # will be used in calculating the probability of each document class given each
         # individual feature
-       
+        for word,freq in self.pos_freqs:
+            print(freq)
+
 
         # for each token in the text, calculate the probability of it occurring in a
         # postive document and in a negative document and add the logs of those to the
@@ -281,8 +284,8 @@ if __name__ == "__main__":
 
     # # uncomment the below lines once you've implemented `classify`
     # print("\nThe following should all be positive.")
-    # print(b.classify('I love computer science'))
-    # print(b.classify('this movie is fantastic'))
+    print(b.classify('I love computer science'))
+    print(b.classify('this movie is fantastic'))
     # print("\nThe following should all be negative.")
     # print(b.classify('rainy days are the worst'))
     # print(b.classify('computer science is terrible'))
