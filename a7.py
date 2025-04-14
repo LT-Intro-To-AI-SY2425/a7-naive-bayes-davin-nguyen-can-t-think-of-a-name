@@ -133,24 +133,35 @@ class BayesClassifier:
         # (i.e. how many words occurred in all documents for the given class) - this
         # will be used in calculating the probability of each document class given each
         # individual feature
-        for word,freq in self.pos_freqs:
-            print(freq)
-
+        pos_n = sum(self.pos_freqs.values())
+        neg_n = sum(self.neg_freqs.values())
+        
 
         # for each token in the text, calculate the probability of it occurring in a
         # postive document and in a negative document and add the logs of those to the
         # running sums. when calculating the probabilities, always add 1 to the numerator
         # of each probability for add one smoothing (so that we never have a probability
         # of 0)
+        p_freqs = 0
+        n_freqs = 0
+        for t in tokens:
+            p_freqs += self.pos_freqs.get(t,0) + 1
+            n_freqs += self.neg_freqs.get(t,0) + 1
 
+        pos_score += math.log(p_freqs/pos_n)
+        neg_score += math.log(n_freqs/neg_n)
 
         # for debugging purposes, it may help to print the overall positive and negative
         # probabilities
-       
 
         # determine whether positive or negative was more probable (i.e. which one was
         # larger)
-       
+        if pos_score > neg_score:
+            return "positive"
+        elif neg_score > pos_score:
+            return "negative"
+        else:
+            return "tie"
 
         # return a string of "positive" or "negative"
 
@@ -284,9 +295,9 @@ if __name__ == "__main__":
 
     # # uncomment the below lines once you've implemented `classify`
     # print("\nThe following should all be positive.")
-    print(b.classify('I love computer science'))
-    print(b.classify('this movie is fantastic'))
+    # print(b.classify('I love computer science'))
+    # print(b.classify('this movie is fantastic'))
     # print("\nThe following should all be negative.")
     # print(b.classify('rainy days are the worst'))
-    # print(b.classify('computer science is terrible'))
+    print(b.classify('computer science is terrible'))
     pass
