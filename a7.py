@@ -158,8 +158,8 @@ class BayesClassifier:
                 pos_freqs = self.pos_freqs.get(t,0) + 1
                 neg_freqs = self.neg_freqs.get(t,0) + 1
 
-                pos_score += math.log(pos_freqs/pos_n)
-                neg_score += math.log(neg_freqs/neg_n)
+                pos_score += math.log(pos_freqs/(pos_n + vocab_size))
+                neg_score += math.log(neg_freqs/(neg_n + vocab_size))
 
         # for debugging purposes, it may help to print the overall positive and negative
         # probabilities
